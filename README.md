@@ -14,14 +14,14 @@ To use:
 
 4> Check that the above command was effective
 
-   If the beginning of output is similar to the below, -rwx,  you are good to go
+	ls -l learn_guitar_notes.pl 
+
+	If the beginning of output is similar to the below, -rwx,  you are good to go
    
-   ls -l learn_guitar_notes.pl 
-   
-   -rwx------  1 srfn8kd  staff  3999 Jan 12 11:09 learn_guitar_notes.pl  <-- This is good!
+	-rwx------  1 srfn8kd  staff  3999 Jan 12 11:09 learn_guitar_notes.pl  <-- This is good!
 
 5> Now simply type the following to start the script and you are on your way!
 
-   ./learn_guitar_notes.pl
+	./learn_guitar_notes.pl
 
 Rock & Roll!

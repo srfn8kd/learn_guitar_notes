@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use Time::HiRes qw(sleep);
 use List::Util qw(shuffle);
+use POSIX ":sys_wait_h";
 
 #######################################################################
 # Provided by srfn8kd on Github
@@ -21,6 +22,12 @@ sub adjust_note_for_siri {
     my ($note) = @_;
     return $note eq 'A' ? 'eh' : $note;
 }
+
+# Signal handler for Ctrl+C
+$SIG{INT} = sub {
+    print "\nExiting... Rock on!\n";
+    exit(0);  # Cleanly exit the program
+};
 
 sub main() {
     # Define standard tuning for a guitar with corresponding notes
@@ -88,9 +95,21 @@ sub main() {
         die "No valid strings or notes selected. Exiting...\n";
     }
 
-    print "Enter the delay time between each new note: ";
+    print "Enter the delay time between each new note (in seconds): ";
     my $delay_t = <STDIN>;
     chomp $delay_t;
+
+    # Countdown before starting
+    clear_screen();
+    print "The format spoken and printed below is string - note.\nPress Ctrl+C to stop.\n";
+    print "Beginning in: ";
+    for my $i (reverse 1..5) {
+        print "\rStarting in $i seconds";
+        system("say $i &");  # Use background process for "say"
+        sleep(1);
+    }
+    clear_screen();
+    print "The format spoken and printed below is string - note.\nPress Ctrl+C to stop.\n";
 
     # Create a queue of string-note combinations
     my @queue = ();
@@ -114,9 +133,18 @@ sub main() {
         # Print and speak the combination
         my $output = "$string - $note";
         print "\r$output       ";  # Overwrite previous output
-        system("say string $string note $adjusted_note");
 
-        # Delay
+        # Wait for the speech to finish before applying the delay
+        my $pid = fork();
+        if ($pid == 0) {
+            exec("say string $string note $adjusted_note");
+            exit(0);
+        }
+
+        # Wait for the speech to finish
+        waitpid($pid, 0);
+
+        # Apply the user-specified delay
         sleep($delay_t);
     }
 }

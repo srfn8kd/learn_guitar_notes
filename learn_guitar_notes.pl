@@ -122,6 +122,8 @@ sub main() {
                     push @queue, { string => $string, note => $note };
                 }
             }
+            # Shuffle the entire queue to randomize between strings
+            @queue = shuffle(@queue);
         }
 
         # Dequeue the next string-note combination
@@ -148,6 +150,5 @@ sub main() {
         sleep($delay_t);
     }
 }
-
 main();
 

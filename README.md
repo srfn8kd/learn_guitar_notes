@@ -8,7 +8,7 @@ To use:
 
 1> Download script to your MacOS computer (store it in the home directory will make finding it easiest)
 
-	Download by clicking the greeng Code button above, download the zip is your best bet if you are not used to using GIT
+	Download by clicking the green Code button above, download the zip is your best bet if you are not used to using GIT
 
 2> Open the terminal application
 
